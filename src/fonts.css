@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
+
+@font-face {
+  font-family: "MarkTheMoment";
+  src: url("/fonts/MarkTheMoment.woff2") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NumbersProsto";
+  src: url("/NumbersProsto-Regular.woff2") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}

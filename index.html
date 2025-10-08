@@ -1,13 +1,34 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>prosto</title>
+    <script type="module" src="/src/main.js"></script>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <nav class="desktopNav">
+      <img src="/logoSmall.svg" alt="logoSmall" class="logoSmall" />
+      <img src="/burgerIcon.svg" alt="burger" class="burger" />
+      <div class="navLinks">
+        <a href="#">О нас</a>
+        <a href="#">Услуги</a>
+        <a href="#">Проекты</a>
+        <div class="line"></div>
+        <a href="#">Хочу проект</a>
+      </div>
+    </nav>
+    <section class="firstScreen">
+      <div class="firstScreenContent">
+        <img src="/logo.svg" alt="logo" class="logoBig" />
+        <p class="firstScreenText">
+          Разрабатываем бренды: от стратегии до визуальной системы
+          и коммуникаций. Создаём чёткий инструмент для роста бизнеса — ничего
+          лишнего, только то, что работает
+        </p>
+      </div>
+      <div id="fallingText"></div>
+    </section>
   </body>
 </html>
