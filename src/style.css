@@ -10,6 +10,7 @@ body {
 }
 
 section.firstScreen {
+  margin-top: var(--navHeight);
   height: calc(100vh - var(--navHeight));
   width: 100%;
   display: flex;
@@ -47,15 +48,16 @@ p.firstScreenText {
 }
 
 .desktopNav {
+  background-color: var(--black);
+  z-index: 10;
   width: 100%;
   display: flex;
   flex-direction: column;
   height: var(--navHeight);
   padding-top: 16px;
-}
-
-.burgerMenu {
-  display: none;
+  position: fixed;
+  transition: all 0.8s cubic-bezier(0.75, 0.01, 0.25, 1);
+  overflow: hidden;
 }
 
 .desktopNavWrapper {
@@ -173,52 +175,52 @@ p.firstScreenText {
     padding-bottom: 0px;
   }
 
-  .desktopNav.open {
-    height: 100vh;
-    align-items: flex-start;
+  .burgerMenu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 40px var(--firstScreenPadding) 0px var(--firstScreenPadding);
 
-    .burgerMenu {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding: 40px var(--firstScreenPadding) 0px var(--firstScreenPadding);
+    a {
+      position: relative;
+      font-family: "Manrope", sans-serif;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--white);
+      font-size: 18px;
+      font-style: normal;
+      line-height: 100%;
+      padding: 16px 0;
+      border-bottom: 1px solid #404040;
 
-      a {
-        position: relative;
-        font-family: "Manrope", sans-serif;
-        text-transform: uppercase;
-        text-decoration: none;
-        color: var(--white);
-        font-size: 18px;
-        font-style: normal;
-        line-height: 100%;
-        padding: 16px 0;
-        border-bottom: 1px solid #404040;
+      &:last-child {
+        font-family: "MarkTheMoment", sans-serif;
+        font-size: 38px;
+        border-bottom: none;
+        text-align: center;
+        color: var(--black);
 
-        &:last-child {
-          font-family: "MarkTheMoment", sans-serif;
-          font-size: 38px;
-          border-bottom: none;
-          text-align: center;
-          color: var(--black);
-
-          &::before {
-            z-index: -1;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            content: "";
-            width: 100%;
-            height: 100%;
-            background-image: url("/buttonMobileBG.svg");
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: contain;
-          }
+        &::before {
+          z-index: -1;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          content: "";
+          width: 100%;
+          height: 100%;
+          background-image: url("/buttonMobileBG.svg");
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: contain;
         }
       }
     }
+  }
+
+  .desktopNav.open {
+    height: 100vh;
+    align-items: flex-start;
   }
 }
