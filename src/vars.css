@@ -4,4 +4,12 @@
 
   --navHeight: 72px;
   --firstScreenPadding: 48px;
+
+  --pinkTextSize: 90px;
+}
+
+@media (max-width: 854px) {
+  :root {
+    --firstScreenPadding: 12px;
+  }
 }

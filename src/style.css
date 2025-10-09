@@ -14,7 +14,7 @@ section.firstScreen {
   width: 100%;
   display: flex;
   align-items: flex-end;
-  padding-left: 48px;
+  padding-left: var(--firstScreenPadding);
   box-sizing: border-box;
   padding-bottom: 50px;
   position: relative;
@@ -49,8 +49,20 @@ p.firstScreenText {
 .desktopNav {
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   height: var(--navHeight);
+  padding-top: 16px;
+}
+
+.burgerMenu {
+  display: none;
+}
+
+.desktopNavWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
   padding: 0 var(--firstScreenPadding);
 }
 
@@ -126,6 +138,10 @@ p.firstScreenText {
   height: 100%;
 }
 
+.logoMobile {
+  display: none;
+}
+
 @media (max-width: 854px) {
   .navLinks {
     display: none;
@@ -135,5 +151,74 @@ p.firstScreenText {
     display: flex;
     cursor: pointer;
     max-width: 25px;
+  }
+
+  .logoBig {
+    display: none;
+  }
+
+  .logoMobile {
+    display: flex;
+  }
+
+  .firstScreenContent {
+    width: 100%;
+  }
+
+  p.firstScreenText {
+    font-size: 16px;
+  }
+
+  section.firstScreen {
+    padding-bottom: 0px;
+  }
+
+  .desktopNav.open {
+    height: 100vh;
+    align-items: flex-start;
+
+    .burgerMenu {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 40px var(--firstScreenPadding) 0px var(--firstScreenPadding);
+
+      a {
+        position: relative;
+        font-family: "Manrope", sans-serif;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: var(--white);
+        font-size: 18px;
+        font-style: normal;
+        line-height: 100%;
+        padding: 16px 0;
+        border-bottom: 1px solid #404040;
+
+        &:last-child {
+          font-family: "MarkTheMoment", sans-serif;
+          font-size: 38px;
+          border-bottom: none;
+          text-align: center;
+          color: var(--black);
+
+          &::before {
+            z-index: -1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            content: "";
+            width: 100%;
+            height: 100%;
+            background-image: url("/buttonMobileBG.svg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+          }
+        }
+      }
+    }
   }
 }

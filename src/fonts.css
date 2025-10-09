@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: "NumbersProsto";
-  src: url("/NumbersProsto-Regular.woff2") format("truetype");
+  src: url("/fonts/NumbersProsto-Regular.woff2") format("truetype");
   font-weight: 600;
   font-style: normal;
 }

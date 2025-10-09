@@ -75,12 +75,37 @@ export function initFallingWords() {
     wallOptions
   );
 
+  // Функция для получения высоты черного блока в зависимости от ширины экрана
+  function getBlackBlockHeight() {
+    if (container.clientWidth < 390) {
+      // Очень маленькие экраны: высота = ширина * 1.1
+      return container.clientWidth * 1.2;
+    } else if (container.clientWidth < 470) {
+      // Средние экраны: высота = ширина * 0.8
+      return container.clientWidth * 1.1;
+    } else if (container.clientWidth < 855) {
+      // Средние экраны: высота = ширина * 0.8
+      return container.clientWidth * 1;
+    } else {
+      // Большие экраны: фиксированная высота
+      return 600;
+    }
+  }
+
+  // Функция для получения ширины черного блока в зависимости от ширины экрана
+  function getBlackBlockWidth() {
+    // На маленьких экранах: 750px = 100vw (во весь экран)
+    return container.clientWidth < 855 ? container.clientWidth : 750;
+  }
+
   // Чёрный блок в левом нижнем углу
+  const blackBlockHeight = getBlackBlockHeight();
+  const blackBlockWidth = getBlackBlockWidth();
   const blackBlock = Bodies.rectangle(
-    375, // x = половина ширины блока (750 / 2)
-    container.clientHeight - 245, // y = высота контейнера - половина высоты блока (490 / 2)
-    750,
-    600,
+    blackBlockWidth / 2, // x = половина ширины блока
+    container.clientHeight - blackBlockHeight / 2, // y = высота контейнера - половина высоты блока
+    blackBlockWidth,
+    blackBlockHeight,
     {
       isStatic: true,
       render: {
@@ -102,26 +127,36 @@ export function initFallingWords() {
 
   // Слова для анимации
   const words = [
-    "креатив",
-    "бренд",
+    "позиционирование",
+    "консалтинг",
+    "нейминг",
+    "бренд-архитектура",
     "дизайн",
+    "брендинг",
+    "креатив",
     "стратегия",
-    "визуал",
-    "идея",
-    "концепт",
-    "стиль",
-    "айдентика",
-    "проект",
+    "спецпроекты",
+    "мерч",
+    "бренд-платформа",
+    "360",
   ];
+
+  // Функция для получения размера шрифта в зависимости от ширины экрана
+  function getFontSize() {
+    return container.clientWidth < 855 ? 34 : 90;
+  }
 
   // Функция для измерения размеров текста
   function measureText(text) {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-    ctx.font = "500 90px MarkTheMoment, sans-serif";
+    const fontSize = getFontSize();
+    // Используем NumbersProsto для слова "360", иначе MarkTheMoment
+    const fontFamily = text === "360" ? "NumbersProsto" : "MarkTheMoment";
+    ctx.font = `500 ${fontSize}px ${fontFamily}, sans-serif`;
     const metrics = ctx.measureText(text);
     const width = metrics.width + 40; // padding
-    const height = 44; // font size + padding
+    const height = fontSize < 50 ? 20 : 44; // font size + padding
     return { width, height };
   }
 
@@ -131,8 +166,17 @@ export function initFallingWords() {
     const { width, height } = measureText(word);
 
     // Рандомная позиция и угол как в референсе
-    const x = Math.random() * container.clientWidth;
-    const y = Math.random() * container.clientHeight * 0.7 + Math.random() * 40;
+    // На экранах < 855px спавн сверху по центру, на больших - в правой половине
+    const x =
+      container.clientWidth < 855
+        ? container.clientWidth * 0.25 +
+          Math.random() * (container.clientWidth * 0.5)
+        : container.clientWidth / 2 +
+          Math.random() * (container.clientWidth / 2);
+    const y =
+      container.clientWidth < 855
+        ? Math.random() * container.clientHeight * 0.3 + Math.random() * 40
+        : Math.random() * container.clientHeight * 0.7 + Math.random() * 40;
     const angle = (Math.random() - 0.5) * (Math.PI / 3);
 
     const wordBody = Bodies.rectangle(x, y, width, height, {
@@ -178,10 +222,9 @@ export function initFallingWords() {
   // Кастомный рендеринг текста на canvas
   Matter.Events.on(render, "afterRender", () => {
     const ctx = render.context;
-    ctx.font = "500 90px MarkTheMoment, sans-serif";
+    const fontSize = getFontSize();
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "#FEC7FF";
 
     engine.world.bodies.forEach((body) => {
       // Рисуем только наши слова из массива words
@@ -190,12 +233,17 @@ export function initFallingWords() {
         ctx.translate(body.position.x, body.position.y);
         ctx.rotate(body.angle);
 
+        // Устанавливаем правильный шрифт для каждого слова
+        const fontFamily =
+          body.label === "360" ? "NumbersProsto" : "MarkTheMoment";
+        ctx.font = `500 ${fontSize}px ${fontFamily}, sans-serif`;
+
         // Рисуем фон с закругленными углами
         const metrics = ctx.measureText(body.label);
         const textWidth = metrics.width;
         const padding = 20;
         const bgWidth = textWidth + padding * 2;
-        const bgHeight = 44;
+        const bgHeight = fontSize < 50 ? 20 : 44;
 
         ctx.fillStyle = "rgba(0, 0, 0, 0)";
 
@@ -277,11 +325,30 @@ export function initFallingWords() {
       Matter.Vector.create(container.clientWidth / 2, 0 - THICCNESS / 2)
     );
 
-    // Обновляем позицию чёрного блока
-    Matter.Body.setPosition(
-      blackBlock,
-      Matter.Vector.create(375, container.clientHeight - 245)
+    // Обновляем размер и позицию чёрного блока
+    const newBlackBlockHeight = getBlackBlockHeight();
+    const newBlackBlockWidth = getBlackBlockWidth();
+
+    // Удаляем старый блок и создаем новый с правильными размерами
+    World.remove(engine.world, blackBlock);
+    const newBlackBlock = Bodies.rectangle(
+      newBlackBlockWidth / 2,
+      container.clientHeight - newBlackBlockHeight / 2,
+      newBlackBlockWidth,
+      newBlackBlockHeight,
+      {
+        isStatic: true,
+        render: {
+          fillStyle: "#000000",
+          strokeStyle: "transparent",
+          lineWidth: 0,
+        },
+      }
     );
+    World.add(engine.world, newBlackBlock);
+
+    // Обновляем ссылку на blackBlock
+    Object.assign(blackBlock, newBlackBlock);
   }
 
   window.addEventListener("resize", handleResize);
