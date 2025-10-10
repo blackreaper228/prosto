@@ -78,24 +78,36 @@ export function initFallingWords() {
   // Функция для получения высоты черного блока в зависимости от ширины экрана
   function getBlackBlockHeight() {
     if (container.clientWidth < 390) {
-      // Очень маленькие экраны: высота = ширина * 1.1
+      // Очень маленькие экраны: высота = ширина * 1.2
       return container.clientWidth * 1.2;
     } else if (container.clientWidth < 470) {
-      // Средние экраны: высота = ширина * 0.8
+      // Маленькие экраны: высота = ширина * 1.1
       return container.clientWidth * 1.1;
-    } else if (container.clientWidth < 855) {
-      // Средние экраны: высота = ширина * 0.8
+    } else if (container.clientWidth < 600) {
+      // Средние экраны (470-599px): высота = ширина * 2
       return container.clientWidth * 1;
+    } else if (container.clientWidth < 690) {
+      // Средние экраны (600-854px): высота = ширина * 1
+      return container.clientWidth * 1;
+    } else if (container.clientWidth < 820) {
+      // Средние экраны (600-854px): высота = ширина * 1
+      return container.clientWidth * 0.95;
+    } else if (container.clientWidth < 855) {
+      // Средние экраны (600-854px): высота = ширина * 1
+      return container.clientWidth * 0.95;
+    } else if (container.clientWidth < 960) {
+      // Большие экраны (855-959px): высота = ширина * 0.9
+      return container.clientWidth * 0.95;
     } else {
-      // Большие экраны: фиксированная высота
-      return 600;
+      // Десктоп (>= 960px): фиксированная высота
+      return 530;
     }
   }
 
   // Функция для получения ширины черного блока в зависимости от ширины экрана
   function getBlackBlockWidth() {
     // На маленьких экранах: 750px = 100vw (во весь экран)
-    return container.clientWidth < 855 ? container.clientWidth : 750;
+    return container.clientWidth < 960 ? container.clientWidth : 750;
   }
 
   // Чёрный блок в левом нижнем углу
@@ -143,7 +155,7 @@ export function initFallingWords() {
 
   // Функция для получения размера шрифта в зависимости от ширины экрана
   function getFontSize() {
-    return container.clientWidth < 855 ? 34 : 90;
+    return container.clientWidth < 960 ? 34 : 90;
   }
 
   // Функция для измерения размеров текста
@@ -166,15 +178,15 @@ export function initFallingWords() {
     const { width, height } = measureText(word);
 
     // Рандомная позиция и угол как в референсе
-    // На экранах < 855px спавн сверху по центру, на больших - в правой половине
+    // На экранах < 960px спавн сверху по центру, на больших - в правой половине
     const x =
-      container.clientWidth < 855
+      container.clientWidth < 960
         ? container.clientWidth * 0.25 +
           Math.random() * (container.clientWidth * 0.5)
         : container.clientWidth / 2 +
           Math.random() * (container.clientWidth / 2);
     const y =
-      container.clientWidth < 855
+      container.clientWidth < 960
         ? Math.random() * container.clientHeight * 0.3 + Math.random() * 40
         : Math.random() * container.clientHeight * 0.7 + Math.random() * 40;
     const angle = (Math.random() - 0.5) * (Math.PI / 3);
@@ -351,19 +363,24 @@ export function initFallingWords() {
     Object.assign(blackBlock, newBlackBlock);
   }
 
+  // Функция очистки
+  const cleanup = () => {
+    window.removeEventListener("resize", handleResize);
+    Render.stop(render);
+    Runner.stop(runner);
+    World.clear(engine.world);
+    Engine.clear(engine);
+    if (render.canvas && render.canvas.parentNode) {
+      render.canvas.remove();
+    }
+  };
+
   window.addEventListener("resize", handleResize);
 
   return {
     engine,
     render,
     runner,
-    cleanup: () => {
-      window.removeEventListener("resize", handleResize);
-      Render.stop(render);
-      Runner.stop(runner);
-      World.clear(engine.world);
-      Engine.clear(engine);
-      render.canvas.remove();
-    },
+    cleanup,
   };
 }

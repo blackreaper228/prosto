@@ -8,7 +8,7 @@
   --pinkTextSize: 90px;
 }
 
-@media (max-width: 854px) {
+@media (max-width: 960px) {
   :root {
     --firstScreenPadding: 12px;
   }
