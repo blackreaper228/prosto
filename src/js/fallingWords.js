@@ -77,27 +77,36 @@ export function initFallingWords() {
 
   // Функция для получения высоты черного блока в зависимости от ширины экрана
   function getBlackBlockHeight() {
-    if (container.clientWidth < 390) {
-      // Очень маленькие экраны: высота = ширина * 1.2
-      return container.clientWidth * 1.2;
+    if (container.clientWidth < 350) {
+      return container.clientWidth * 1.3;
+    } else if (container.clientWidth < 400) {
+      return container.clientWidth * 1.35;
     } else if (container.clientWidth < 470) {
-      // Маленькие экраны: высота = ширина * 1.1
-      return container.clientWidth * 1.1;
+      return container.clientWidth * 1.18;
+    } else if (container.clientWidth < 500) {
+      return container.clientWidth * 1.05;
+    } else if (container.clientWidth < 550) {
+      return container.clientWidth * 0.95;
     } else if (container.clientWidth < 600) {
-      // Средние экраны (470-599px): высота = ширина * 2
-      return container.clientWidth * 1;
+      return container.clientWidth * 0.88;
+    } else if (container.clientWidth < 650) {
+      return container.clientWidth * 0.85;
     } else if (container.clientWidth < 690) {
-      // Средние экраны (600-854px): высота = ширина * 1
-      return container.clientWidth * 1;
+      return container.clientWidth * 0.79;
+    } else if (container.clientWidth < 710) {
+      return container.clientWidth * 0.75;
+    } else if (container.clientWidth < 750) {
+      return container.clientWidth * 0.71;
     } else if (container.clientWidth < 820) {
-      // Средние экраны (600-854px): высота = ширина * 1
-      return container.clientWidth * 0.95;
+      return container.clientWidth * 0.69;
     } else if (container.clientWidth < 855) {
-      // Средние экраны (600-854px): высота = ширина * 1
-      return container.clientWidth * 0.95;
+      return container.clientWidth * 0.67;
+    } else if (container.clientWidth < 900) {
+      return container.clientWidth * 0.65;
+    } else if (container.clientWidth < 920) {
+      return container.clientWidth * 0.62;
     } else if (container.clientWidth < 960) {
-      // Большие экраны (855-959px): высота = ширина * 0.9
-      return container.clientWidth * 0.95;
+      return container.clientWidth * 0.62;
     } else {
       // Десктоп (>= 960px): фиксированная высота
       return 530;

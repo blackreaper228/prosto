@@ -144,11 +144,29 @@ p.firstScreenText {
   height: 100%;
 }
 
-.logoMobile {
+.logo_mobile {
   display: none;
 }
 
 @media (max-width: 960px) {
+  /* #fallingText {
+    height: 37vw;
+  } */
+
+  .logo_mobile {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logoMobileMiddle {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    object-fit: fill;
+    height: 300px;
+    margin: -1px 0px -1px 0px;
+  }
+
   .navLinks {
     display: none;
   }
